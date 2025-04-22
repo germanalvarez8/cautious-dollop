@@ -1,5 +1,6 @@
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const UnicornsView = ({
     unicorns,
@@ -7,50 +8,66 @@ const UnicornsView = ({
     onSubmit,
     onDeleteUnicorn,
     onInputChange,
-    onEdit
+    onEdit,
+    validationSchema
 }) => {
     return (
         <div className="container">
             <h1>Gestión de Unicornios</h1>
 
             <div className="unicorns-container">
-            <form onSubmit={onSubmit} className="unicorn-form">
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Nombre del unicornio"
-                    required
-                    value={formData.name}
-                    onChange={onInputChange}
-                />
-                <input
-                    type="text"
-                    name="color"
-                    placeholder="Color"
-                    required
-                    value={formData.color}
-                    onChange={onInputChange}
-                />
-                <input
-                    type="number"
-                    name="age"
-                    placeholder="Edad"
-                    required
-                    value={formData.age}
-                    onChange={onInputChange}
-                />
-                <input
-                    type="text"
-                    name="power"
-                    placeholder="Poder"
-                    required
-                    value={formData.power}
-                    onChange={onInputChange}
-                />
-                <button type="submit">
-                    Agregar Unicornio
-                </button>
-            </form>
+            <Formik
+                initialValues={formData}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit}
+                enableReinitialize
+            >
+                <Form className="unicorn-form">
+                    <div>
+                        <label htmlFor="name">Nombre</label>
+                        <Field
+                            type="text"
+                            name="name"
+                            placeholder="Nombre del unicornio"
+                            required
+                        />
+                        <ErrorMessage name="name" component='div' />
+                    </div>
+                    <div>
+                        <label htmlFor="color">Color</label>
+                        <Field
+                            type="text"
+                            name="color"
+                            placeholder="Color del unicornio"
+                            required
+                        />
+                        <ErrorMessage name="color" component='div' />
+                    </div>
+                    <div>
+                        <label htmlFor="age">Edad</label>
+                        <Field
+                            type="number"
+                            name="age"
+                            placeholder="Edad del unicornio"
+                            required
+                        />
+                        <ErrorMessage name="age" component='div' />
+                    </div>
+                    <div>
+                        <label htmlFor="power">Poder</label>
+                        <Field
+                            type="text"
+                            name="power"
+                            placeholder="Poder del unicornio"
+                            required
+                        />
+                        <ErrorMessage name="power" component='div' />
+                    </div>
+                    <button type="submit">
+                        Agregar Unicornio
+                    </button>
+                </Form>
+            </Formik>
             <div className="products-list">
                 <h2>Lista de Productos</h2>
                 <DataTable value={unicorns} emptyMessage="No hay unicornios en el inventario">
