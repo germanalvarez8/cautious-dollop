@@ -1,6 +1,6 @@
-# Gestión de Unicornios
+# Gestión de Unicornios y Productos
 
-Una aplicación web simple para gestionar un inventario de unicornios mágicos.
+Una aplicación web simple para gestionar un inventario de unicornios mágicos y productos.
 
 ## Funcionalidades
 
@@ -8,6 +8,8 @@ Una aplicación web simple para gestionar un inventario de unicornios mágicos.
 - Ver lista de unicornios existentes
 - Editar información de unicornios
 - Eliminar unicornios del inventario
+- Crear nuevos productos con nombre y precio
+- Ver lista de productos existentes
 
 ## Tecnologías Utilizadas
 
@@ -19,8 +21,11 @@ Una aplicación web simple para gestionar un inventario de unicornios mágicos.
 ## Estructura del Proyecto
 
 - `src/App.jsx` - Componente principal con rutas
-- `src/unicorns/UnicornsContainer.jsx` - Lógica de negocio y manejo de estado
-- `src/unicorns/UnicornsView.jsx` - Componentes de presentación
+- `src/unicorns/UnicornsContainer.jsx` - Lógica de negocio y manejo de estado de unicornios
+- `src/unicorns/UnicornsView.jsx` - Componentes de presentación de unicornios
+- `src/products/index.jsx` - Módulo de productos con manejo de estado
+- `src/products/ProductsView.jsx` - Vista de lista de productos
+- `src/products/ProductForm.jsx` - Formulario para crear productos
 
 ## Cómo Iniciar
 
