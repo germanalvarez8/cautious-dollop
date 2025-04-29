@@ -24,14 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2.2em;
   line-height: 1.1;
 }
 
@@ -54,6 +52,77 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+}
+
+.error {
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem 0.5rem;
+}
+
+.p-button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-header {
+  padding: 0.5rem;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field small.p-error {
+  color: #ef4444;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+    padding: 0.5rem 0.3rem;
+  }
+  
+  .p-button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .p-button.p-button-sm {
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .p-inputtext, .p-inputnumber {
+    width: 100%;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -65,4 +134,26 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.p-button.p-button-danger {
+  background-color: #ff4d4f;
+  color: white;
+  border-color: #ff4d4f;
+}
+
+.p-button.p-button-danger:hover {
+  background-color: #f5222d;
+  border-color: #f5222d;
+}
+
+.p-button.p-button-info {
+  background-color: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+.p-button.p-button-info:hover {
+  background-color: #096dd9;
+  border-color: #096dd9;
 }

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import UnicornsView from './UnicornsView';
+import * as Yup from 'yup';
 
 const UnicornsContainer = () => {
-    const url = 'https://crudcrud.com/api/0237ade2ebce4b669064b6fda8e400be/unicorns';
+    const url = 'https://crudcrud.com/api/bada7a5136694c45acced3ab7ca5e66f/unicorns';
     const [unicorns, setUnicorns] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -22,6 +23,13 @@ const UnicornsContainer = () => {
         }))
     }
 
+    const validationSchema = Yup.object({
+        name: Yup.string().required('El nombre es requerido'),
+        color: Yup.string().required('El color es requerido'),
+        age: Yup.number().required('La edad es requerida'),
+        power: Yup.string().required('El poder es requerido'),
+    })
+
     const fetchUnicorns = async () => {
         setLoading(true);
         try {
@@ -40,8 +48,7 @@ const UnicornsContainer = () => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (values) => {
         try {
             if (editingUnicorn) {
                 await fetch(url + `/${editingUnicorn._id}`, {
@@ -49,7 +56,7 @@ const UnicornsContainer = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify(values),
                 });
 
                 setEditingUnicorn(null)
@@ -60,7 +67,7 @@ const UnicornsContainer = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify(values),
                 });
 
                 const newUnicorn = await response.json();
@@ -85,8 +92,7 @@ const UnicornsContainer = () => {
             await fetch(url + `/${id}`, {
                 method: 'DELETE',
             });
-            setUnicorns(unicorns.filter(unicorn => unicorn.id !== id));
-
+            setUnicorns(unicorns.filter(unicorn => unicorn._id !== id));
             fetchUnicorns();
         } catch (err) {
             setError('Error al eliminar el unicornio, error:' + err);
@@ -120,6 +126,7 @@ const UnicornsContainer = () => {
             onEdit={handleEdit}
             onDeleteUnicorn={deleteUnicorn}
             onInputChange={handleInputChange}
+            validationSchema={validationSchema}
         />
     );
 };

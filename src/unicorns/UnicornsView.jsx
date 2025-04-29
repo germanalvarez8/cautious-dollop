@@ -1,78 +1,52 @@
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+import { Link } from 'react-router-dom';
 
-const UnicornsView = ({
-    unicorns,
-    formData,
-    onSubmit,
-    onDeleteUnicorn,
-    onInputChange,
-    onEdit
-}) => {
+const UnicornsView = ({ unicorns, deleteUnicorn, loading, error }) => {
+    if (loading) return <div className="loading">Cargando...</div>;
+    if (error) return <div className="error">Error: {error}</div>;
+
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <div className="action-buttons">
+                <Link to={`/unicorns/edit/${rowData._id}`}>
+                    <Button icon="pi pi-pencil" className="p-button-info p-button-sm" />
+                </Link>
+                <Button
+                    icon="pi pi-trash"
+                    className="p-button-danger p-button-sm"
+                    onClick={() => deleteUnicorn(rowData._id)}
+                />
+            </div>
+        );
+    };
+
     return (
         <div className="container">
             <h1>Gestión de Unicornios</h1>
-
-            <div className="unicorns-container">
-            <form onSubmit={onSubmit} className="unicorn-form">
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Nombre del unicornio"
-                    required
-                    value={formData.name}
-                    onChange={onInputChange}
-                />
-                <input
-                    type="text"
-                    name="color"
-                    placeholder="Color"
-                    required
-                    value={formData.color}
-                    onChange={onInputChange}
-                />
-                <input
-                    type="number"
-                    name="age"
-                    placeholder="Edad"
-                    required
-                    value={formData.age}
-                    onChange={onInputChange}
-                />
-                <input
-                    type="text"
-                    name="power"
-                    placeholder="Poder"
-                    required
-                    value={formData.power}
-                    onChange={onInputChange}
-                />
-                <button type="submit">
-                    Agregar Unicornio
-                </button>
-            </form>
-            <div className="products-list">
-                <h2>Lista de Productos</h2>
-                <DataTable value={unicorns} emptyMessage="No hay unicornios en el inventario">
-                    <Column field="name" header="Nombre"></Column>
-                    <Column field="color" header="Color"></Column>
-                    <Column field="age" header="Edad"></Column>
-                    <Column field="power" header="Poder"></Column>
-                    <Column body={(rowData) => (
-                        <div>
-                            <button onClick={() => onEdit(rowData)} className="p-button-warning">
-                                Editar
-                            </button>
-                            <button onClick={() => onDeleteUnicorn(rowData._id)} className="p-button-danger">
-                                Eliminar
-                            </button>
-                        </div>
-                    )} header="Acciones"></Column>
-                </DataTable>
+            <div className="actions">
+                <Link to="/unicorns/create">
+                    <Button label="Crear Nuevo Unicornio" icon="pi pi-plus" className="p-button-primary" />
+                </Link>
             </div>
+            <div className="unicorns-list">
+                <DataTable
+                    value={unicorns}
+                    emptyMessage="No hay unicornios en el inventario"
+                    breakpoint="768px"
+                    stripedRows
+                    className="p-datatable-sm"
+                >
+                    <Column field="name" header="Nombre" sortable />
+                    <Column field="color" header="Color" sortable />
+                    <Column field="age" header="Edad" sortable />
+                    <Column field="power" header="Poder" sortable />
+                    <Column body={actionBodyTemplate} header="Acciones" style={{ width: '8rem' }} />
+                </DataTable>
             </div>
         </div>
     );
 };
 
-export default UnicornsView; 
+export default UnicornsView;
