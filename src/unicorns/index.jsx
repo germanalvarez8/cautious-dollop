@@ -9,11 +9,11 @@ const UnicornsModule = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<UnicornsView 
-                unicorns={unicorns} 
-                loading={loading} 
-                error={error} 
-                deleteUnicorn={deleteUnicorn} 
+            <Route path="/" element={<UnicornsView
+                unicorns={unicorns}
+                loading={loading}
+                error={error}
+                deleteUnicorn={deleteUnicorn}
             />} />
             <Route path="/create" element={<UnicornForm onSubmit={createUnicorn} />} />
             <Route path="/edit/:id" element={<UnicornForm onSubmit={editUnicorn} />} />

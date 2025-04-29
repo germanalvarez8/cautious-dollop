@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-// Exportar el contexto directamente
 export const UnicornContext = createContext();
 
 export const useUnicornContext = () => {
@@ -53,16 +52,25 @@ export const UnicornProvider = ({ children }) => {
 
     const editUnicorn = async (id, values) => {
         try {
-            await fetch(url + `/${id}`, {
+            const { _id, ...updateData } = values;
+
+            const response = await fetch(`${url}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(values),
+                body: JSON.stringify(updateData),
             });
-            fetchUnicorns();
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            setUnicorns(unicorns.map(unicorn =>
+                unicorn._id === id ? { ...unicorn, ...updateData, _id: id } : unicorn
+            ));
         } catch (err) {
-            setError('Error al editar el unicornio, error:' + err);
+            console.error('Error al editar el unicornio:', err);
             throw err;
         }
     };
