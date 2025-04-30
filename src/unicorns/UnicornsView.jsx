@@ -2,9 +2,12 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 import { Link } from 'react-router-dom';
-import unicornLogo from '../assets/unicorn-hurting-a-man-nailing-the-horn-in-the-middle-of-his-body-to-kill-him-svgrepo-com.svg';
+import { useContext } from 'react';
+import { UnicornContext } from '../context/UnicornContext';
 
-const UnicornsView = ({ unicorns, deleteUnicorn, loading, error }) => {
+const UnicornsView = ({ unicorns, loading, error, deleteUnicorn }) => {
+    const { exportToPDF } = useContext(UnicornContext);
+
     if (loading) return <div className="loading">Cargando...</div>;
     if (error) return <div className="error">Error: {error}</div>;
 
@@ -34,6 +37,12 @@ const UnicornsView = ({ unicorns, deleteUnicorn, loading, error }) => {
                 <Link to="/unicorns/create">
                     <Button label="Crear Nuevo Unicornio" icon="pi pi-plus" className="p-button-primary" />
                 </Link>
+                <Button
+                    label="Exportar"
+                    icon="pi pi-file-pdf"
+                    className="p-button-primary"
+                    onClick={exportToPDF}
+                />
             </div>
             <div className="unicorns-list">
                 <DataTable

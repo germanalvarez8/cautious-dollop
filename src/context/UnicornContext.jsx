@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import axios from 'axios';
 
 export const UnicornContext = createContext();
-
 export const useUnicornContext = () => {
     const context = useContext(UnicornContext);
     if (!context) {
@@ -86,6 +87,52 @@ export const UnicornProvider = ({ children }) => {
         }
     };
 
+    const exportToPDF = () => {
+        try {
+            const doc = new jsPDF();
+
+            doc.setFontSize(18);
+            doc.text('Informe de Unicornios', 14, 22);
+            doc.setFontSize(11);
+            doc.text(`Fecha de exportación: ${new Date().toLocaleDateString('es-AR')}`, 14, 30);
+            const tableColumn = ["Nombre", "Color", "Edad", "Poder"];
+            const tableRows = [];
+
+            unicorns.forEach(unicorn => {
+                const unicornData = [
+                    unicorn.name,
+                    unicorn.color,
+                    unicorn.age,
+                    unicorn.power
+                ];
+                tableRows.push(unicornData);
+            });
+
+            autoTable(doc, {
+                head: [tableColumn],
+                body: tableRows,
+                startY: 40,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [63, 81, 181],
+                    textColor: 255,
+                    fontStyle: 'bold'
+                },
+                alternateRowStyles: {
+                    fillColor: [240, 240, 240]
+                }
+            });
+
+            doc.save(`unicornios_${new Date().toISOString().split('T')[0]}.pdf`);
+
+            return true;
+        } catch (err) {
+            console.error('Error al exportar a PDF:', err);
+            setError('Error al exportar a PDF: ' + err);
+            return false;
+        }
+    };
+
     useEffect(() => {
         fetchUnicorns();
     }, []);
@@ -97,7 +144,8 @@ export const UnicornProvider = ({ children }) => {
         createUnicorn,
         editUnicorn,
         deleteUnicorn,
-        fetchUnicorns
+        fetchUnicorns,
+        exportToPDF
     };
 
     return (
